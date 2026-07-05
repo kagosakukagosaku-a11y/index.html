@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>医療法人さくら眼科</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sakura:    #E8B4C0;
+      --sakura-lt: #F7DDE4;
+      --sakura-dk: #C47A8A;
+      --ink:       #2A2426;
+      --muted:     #6B5B5E;
+      --bg:        #FDFBFC;
+      --white:     #FFFFFF;
+      --divider:   #EDE0E3;
+      --green:     #4A7C6F;
+      --serif:     'Noto Serif JP', serif;
+      --sans:      'Noto Sans JP', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(253,251,252,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--divider);
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+    .nav-logo span { color: var(--sakura-dk); }
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--sakura-dk); }
+    .nav-tel {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+    }
+    .nav-tel::before { content: '📞 '; font-size: 0.75rem; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding-top: 64px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero-text {
+      padding: clamp(3rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem);
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      color: var(--sakura-dk);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .hero-clinic-name {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 600;
+      color: var(--sakura-dk);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.6rem;
+      border-left: 5px solid var(--sakura);
+      padding-left: 1rem;
+    }
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4.5vw, 3.6rem);
+      font-weight: 300;
+      line-height: 1.5;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--sakura-dk);
+      border-bottom: 2px solid var(--sakura);
+    }
+    .hero-sub {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 2.5rem;
+      max-width: 420px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all .25s;
+    }
+    .btn-primary {
+      background: var(--sakura-dk);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--ink); }
+
+    .hero-visual {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--sakura-lt) 0%, #F0E8F0 100%);
+      overflow: hidden;
+    }
+    /* Decorative petals */
+    .petal {
+      position: absolute;
+      border-radius: 50% 0 50% 0;
+      background: var(--sakura);
+      opacity: 0.35;
+      animation: drift linear infinite;
+    }
+    @keyframes drift {
+      0%   { transform: translateY(-60px) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.35; }
+      90%  { opacity: 0.25; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    .hero-card {
+      background: var(--white);
+      border-radius: 4px;
+      padding: 2.5rem;
+      box-shadow: 0 12px 48px rgba(42,36,38,0.1);
+      width: 280px;
+      z-index: 2;
+    }
+    .hero-card-title {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .status-row {
+      display: flex; justify-content: space-between;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--divider);
+      font-size: 0.85rem;
+    }
+    .status-row:last-child { border-bottom: none; }
+    .status-row .label { color: var(--muted); font-size: 0.78rem; }
+    .status-row .value { font-weight: 500; }
+    .badge-open {
+      display: inline-block;
+      background: #E8F5E9;
+      color: #2E7D32;
+      font-size: 0.72rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: clamp(4rem, 8vw, 7rem) clamp(1.5rem, 8vw, 8rem);
+    }
+    .section-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      color: var(--sakura-dk);
+      text-transform: uppercase;
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 3rem;
+    }
+
+    /* ── NEWS ── */
+    #news { background: var(--white); }
+    .news-list { list-style: none; max-width: 700px; }
+    .news-item {
+      display: flex; gap: 2rem; align-items: baseline;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--divider);
+      font-size: 0.88rem;
+    }
+    .news-date { color: var(--muted); font-size: 0.78rem; white-space: nowrap; min-width: 90px; }
+
+    /* ── SERVICES ── */
+    #services { background: var(--bg); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .service-card {
+      background: var(--white);
+      border: 1px solid var(--divider);
+      border-radius: 4px;
+      padding: 2rem;
+      transition: box-shadow .2s, border-color .2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--sakura);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .3s;
+    }
+    .service-card:hover { box-shadow: 0 8px 32px rgba(42,36,38,0.08); border-color: var(--sakura); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon { font-size: 1.6rem; margin-bottom: 1rem; }
+    .service-name {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+    .service-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      background: var(--sakura-lt);
+      color: var(--sakura-dk);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      margin-bottom: 0.8rem;
+    }
+    .service-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.8; }
+
+    /* ── HOURS ── */
+    #hours { background: var(--ink); color: var(--white); }
+    #hours .section-eyebrow { color: var(--sakura); }
+    #hours .section-title { color: var(--white); }
+    .hours-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    th, td {
+      padding: 0.8rem 1rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    th {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--sakura);
+      font-weight: 400;
+    }
+    td:first-child { text-align: left; color: rgba(255,255,255,0.7); }
+    .dot { color: var(--sakura); font-size: 1.1rem; }
+    .dash { color: rgba(255,255,255,0.25); }
+
+    .hours-notes {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+    .hours-notes li {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.55);
+      padding: 0.4rem 0;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .hours-notes li::before { content: '—'; position: absolute; left: 0; color: var(--sakura); }
+
+    .access-block { font-size: 0.9rem; }
+    .access-block h3 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: var(--white);
+    }
+    .access-row {
+      display: flex; gap: 1.2rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .access-label { color: var(--sakura); font-size: 0.75rem; min-width: 60px; padding-top: 0.1rem; }
+    .access-value { color: rgba(255,255,255,0.85); font-size: 0.88rem; line-height: 1.7; }
+    .map-link {
+      display: inline-block;
+      margin-top: 1.5rem;
+      color: var(--sakura);
+      font-size: 0.82rem;
+      text-decoration: none;
+      border: 1px solid var(--sakura);
+      padding: 0.6rem 1.4rem;
+      letter-spacing: 0.08em;
+      transition: all .2s;
+    }
+    .map-link:hover { background: var(--sakura); color: var(--ink); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #1E191B;
+      color: rgba(255,255,255,0.45);
+      padding: 2.5rem clamp(1.5rem, 8vw, 8rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: var(--serif);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.95rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .nav-links { display: none; }
+      .hours-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .petal { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#"><span>さくら</span>眼科</a>
+  <ul class="nav-links">
+    <li><a href="#news">お知らせ</a></li>
+    <li><a href="#services">診療内容</a></li>
+    <li><a href="#hours">診療時間</a></li>
+    <li><a href="#access">アクセス</a></li>
+  </ul>
+  <a class="nav-tel" href="tel:0992955911">099-295-5911</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="hero-clinic-name">医療法人さくら眼科</p>
+    <p class="hero-eyebrow">SAKURA EYE CLINIC &ensp;／&ensp; 開設 2000年</p>
+    <h1 class="hero-title">
+      目の健康を、<br>
+      <em>丁寧に</em>守ります。
+    </h1>
+    <p class="hero-sub">
+      鹿児島市吉野で、地域の皆さまの眼の健康をサポートし続けて25年。<br>
+      白内障・緑内障・網膜疾患から日常の視力管理まで、幅広く対応しています。
+    </p>
+    <a href="#status-card" class="btn btn-primary">受付状況を確認する →</a>
+  </div>
+
+  <div class="hero-visual">
+    <!-- Animated petals -->
+    <div class="petal" style="width:24px;height:24px;left:15%;animation-duration:7s;animation-delay:0s;"></div>
+    <div class="petal" style="width:16px;height:16px;left:35%;animation-duration:9s;animation-delay:2s;"></div>
+    <div class="petal" style="width:20px;height:20px;left:55%;animation-duration:6s;animation-delay:1s;"></div>
+    <div class="petal" style="width:12px;height:12px;left:75%;animation-duration:8s;animation-delay:3s;"></div>
+    <div class="petal" style="width:18px;height:18px;left:25%;animation-duration:10s;animation-delay:1.5s;"></div>
+    <div class="petal" style="width:22px;height:22px;left:65%;animation-duration:7.5s;animation-delay:4s;"></div>
+
+    <!-- Status card -->
+    <div class="hero-card" id="status-card">
+      <p class="hero-card-title">本日の診療</p>
+      <div class="status-row">
+        <span class="label">診療状況</span>
+        <span class="value"><span id="status-badge" class="badge-open">受付中</span></span>
+      </div>
+      <div class="status-row">
+        <span class="label">メッセージ</span>
+        <span class="value" id="status-message" style="font-size:0.8rem;color:var(--muted);">通常どおり診療しています</span>
+      </div>
+      <div class="status-row">
+        <span class="label">休診日</span>
+        <span class="value" style="font-size:0.78rem;color:var(--muted);">日曜・祝祭日・お盆・年末年始</span>
+      </div>
+      <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--divider);">
+        <p style="font-size:0.7rem;color:var(--muted);margin-bottom:0.3rem;">お電話でのお問い合わせ</p>
+        <a href="tel:0992955911" style="font-size:1.15rem;font-weight:500;color:var(--ink);text-decoration:none;letter-spacing:0.04em;">099-295-5911</a>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:0.4rem;">〒892-0877 鹿児島市吉野二丁目6-10</p>
+      </div>
+
+      <!-- 管理者ログインエリア -->
+      <div style="margin-top:1rem;padding-top:0.8rem;border-top:1px solid var(--divider);">
+        <div id="login-area">
+          <button onclick="showLogin()" style="width:100%;background:none;border:1px solid var(--divider);border-radius:4px;padding:0.4rem;font-size:0.72rem;color:var(--muted);cursor:pointer;letter-spacing:0.06em;">🔒 受付状況を編集する（スタッフ専用）</button>
+        </div>
+        <div id="password-area" style="display:none;">
+          <input type="password" id="admin-pw" placeholder="パスワードを入力" style="width:100%;border:1px solid var(--divider);border-radius:4px;padding:0.45rem 0.6rem;font-size:0.8rem;margin-bottom:0.4rem;outline:none;">
+          <div style="display:flex;gap:0.4rem;">
+            <button onclick="checkPassword()" style="flex:1;background:var(--sakura-dk);color:#fff;border:none;border-radius:4px;padding:0.45rem;font-size:0.78rem;cursor:pointer;">ログイン</button>
+            <button onclick="cancelLogin()" style="flex:1;background:none;border:1px solid var(--divider);border-radius:4px;padding:0.45rem;font-size:0.78rem;cursor:pointer;color:var(--muted);">キャンセル</button>
+          </div>
+          <p id="pw-error" style="display:none;font-size:0.72rem;color:#C62828;margin-top:0.3rem;">パスワードが違います</p>
+        </div>
+        <div id="edit-area" style="display:none;">
+          <p style="font-size:0.68rem;color:var(--muted);margin-bottom:0.5rem;letter-spacing:0.06em;">▼ 受付状況を選択してください</p>
+          <div style="display:flex;flex-direction:column;gap:0.4rem;">
+            <button onclick="setStatus('open')"      style="background:#E8F5E9;color:#2E7D32;border:none;border-radius:4px;padding:0.4rem 0.6rem;font-size:0.75rem;cursor:pointer;text-align:left;">🟢 受付中（通常どおり診療）</button>
+            <button onclick="setStatus('busy')"      style="background:#FFF8E1;color:#F57F17;border:none;border-radius:4px;padding:0.4rem 0.6rem;font-size:0.75rem;cursor:pointer;text-align:left;">🟡 混雑中（お待ちいただく場合あり）</button>
+            <button onclick="setStatus('break')"     style="background:#E3F2FD;color:#1565C0;border:none;border-radius:4px;padding:0.4rem 0.6rem;font-size:0.75rem;cursor:pointer;text-align:left;">🔵 休憩中（午後より再開）</button>
+            <button onclick="setStatus('morning')"   style="background:#F3E5F5;color:#6A1B9A;border:none;border-radius:4px;padding:0.4rem 0.6rem;font-size:0.75rem;cursor:pointer;text-align:left;">🟣 午前のみ診療</button>
+            <button onclick="setStatus('afternoon')" style="background:#E8EAF6;color:#283593;border:none;border-radius:4px;padding:0.4rem 0.6rem;font-size:0.75rem;cursor:pointer;text-align:left;">🔷 午後のみ診療</button>
+            <button onclick="setStatus('temporary')" style="background:#FBE9E7;color:#BF360C;border:none;border-radius:4px;padding:0.4rem 0.6rem;font-size:0.75rem;cursor:pointer;text-align:left;">⚠️ 臨時休診</button>
+            <button onclick="setStatus('closed')"    style="background:#FFEBEE;color:#C62828;border:none;border-radius:4px;padding:0.4rem 0.6rem;font-size:0.75rem;cursor:pointer;text-align:left;">🔴 本日休診</button>
+          </div>
+          <button onclick="logout()" style="width:100%;margin-top:0.6rem;background:none;border:1px solid var(--divider);border-radius:4px;padding:0.35rem;font-size:0.72rem;color:var(--muted);cursor:pointer;">🔓 ログアウト</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const ADMIN_PASSWORD = 'sakura2000'; // ← パスワードはここを変更してください
+
+      function showLogin() {
+        document.getElementById('login-area').style.display = 'none';
+        document.getElementById('password-area').style.display = 'block';
+        document.getElementById('admin-pw').focus();
+      }
+      function cancelLogin() {
+        document.getElementById('password-area').style.display = 'none';
+        document.getElementById('login-area').style.display = 'block';
+        document.getElementById('admin-pw').value = '';
+        document.getElementById('pw-error').style.display = 'none';
+      }
+      function checkPassword() {
+        const pw = document.getElementById('admin-pw').value;
+        if (pw === ADMIN_PASSWORD) {
+          document.getElementById('password-area').style.display = 'none';
+          document.getElementById('edit-area').style.display = 'block';
+          document.getElementById('admin-pw').value = '';
+          document.getElementById('pw-error').style.display = 'none';
+        } else {
+          document.getElementById('pw-error').style.display = 'block';
+        }
+      }
+      function logout() {
+        document.getElementById('edit-area').style.display = 'none';
+        document.getElementById('login-area').style.display = 'block';
+      }
+      // Enterキーでもログイン可能に
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('admin-pw').addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') checkPassword();
+        });
+      });
+
+      function setStatus(type) {
+        const badge = document.getElementById('status-badge');
+        const msg   = document.getElementById('status-message');
+        const map = {
+          open:      { text:'受付中',   bg:'#E8F5E9', color:'#2E7D32', msg:'通常どおり診療しています' },
+          busy:      { text:'混雑中',   bg:'#FFF8E1', color:'#F57F17', msg:'ただいま混雑しております。お待ちいただく場合があります。' },
+          break:     { text:'休憩中',   bg:'#E3F2FD', color:'#1565C0', msg:'現在休憩中です。午後より診療を再開いたします。' },
+          morning:   { text:'午前のみ', bg:'#F3E5F5', color:'#6A1B9A', msg:'本日は午前のみの診療となります（9:30〜12:00）。' },
+          afternoon: { text:'午後のみ', bg:'#E8EAF6', color:'#283593', msg:'本日は午後のみの診療となります（16:00〜18:00）。' },
+          temporary: { text:'臨時休診', bg:'#FBE9E7', color:'#BF360C', msg:'本日は臨時休診となります。ご不便をおかけし申し訳ありません。' },
+          closed:    { text:'本日休診', bg:'#FFEBEE', color:'#C62828', msg:'本日は休診日です。ご不便をおかけします。' },
+        };
+        const s = map[type];
+        badge.textContent = s.text;
+        badge.style.background = s.bg;
+        badge.style.color = s.color;
+        msg.textContent = s.msg;
+      }
+    </script>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="news">
+  <p class="section-eyebrow">News &amp; Information</p>
+  <h2 class="section-title">お知らせ</h2>
+
+  <!-- お知らせ一覧（動的に表示） -->
+  <ul class="news-list" id="news-list"></ul>
+
+  <!-- スタッフ編集パネル -->
+  <div style="margin-top:2rem;max-width:700px;">
+    <div id="news-login-area">
+      <button onclick="showNewsLogin()" style="background:none;border:1px solid var(--divider);border-radius:4px;padding:0.45rem 1.2rem;font-size:0.75rem;color:var(--muted);cursor:pointer;letter-spacing:0.06em;">🔒 お知らせを編集する（スタッフ専用）</button>
+    </div>
+    <div id="news-password-area" style="display:none;max-width:320px;">
+      <input type="password" id="news-admin-pw" placeholder="パスワードを入力" style="width:100%;border:1px solid var(--divider);border-radius:4px;padding:0.45rem 0.6rem;font-size:0.8rem;margin-bottom:0.4rem;outline:none;">
+      <div style="display:flex;gap:0.4rem;">
+        <button onclick="checkNewsPassword()" style="flex:1;background:var(--sakura-dk);color:#fff;border:none;border-radius:4px;padding:0.45rem;font-size:0.78rem;cursor:pointer;">ログイン</button>
+        <button onclick="cancelNewsLogin()" style="flex:1;background:none;border:1px solid var(--divider);border-radius:4px;padding:0.45rem;font-size:0.78rem;cursor:pointer;color:var(--muted);">キャンセル</button>
+      </div>
+      <p id="news-pw-error" style="display:none;font-size:0.72rem;color:#C62828;margin-top:0.3rem;">パスワードが違います</p>
+    </div>
+    <div id="news-edit-area" style="display:none;">
+      <p style="font-size:0.78rem;color:var(--muted);margin-bottom:1rem;">▼ 新しいお知らせを追加</p>
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.6rem;">
+        <input type="date" id="news-date-input" style="border:1px solid var(--divider);border-radius:4px;padding:0.45rem 0.6rem;font-size:0.8rem;outline:none;">
+        <input type="text" id="news-text-input" placeholder="お知らせの内容を入力" style="flex:1;min-width:200px;border:1px solid var(--divider);border-radius:4px;padding:0.45rem 0.6rem;font-size:0.8rem;outline:none;">
+        <button onclick="addNews()" style="background:var(--sakura-dk);color:#fff;border:none;border-radius:4px;padding:0.45rem 1rem;font-size:0.78rem;cursor:pointer;white-space:nowrap;">＋ 追加</button>
+      </div>
+      <p style="font-size:0.75rem;color:var(--muted);margin-bottom:0.5rem;">▼ 既存のお知らせ（×で削除）</p>
+      <ul id="news-edit-list" style="list-style:none;max-width:700px;"></ul>
+      <button onclick="logoutNews()" style="margin-top:1rem;background:none;border:1px solid var(--divider);border-radius:4px;padding:0.35rem 1rem;font-size:0.72rem;color:var(--muted);cursor:pointer;">🔓 ログアウト</button>
+    </div>
+  </div>
+
+  <script>
+    // ── お知らせデータ（ここを直接編集してもOK）──
+    let newsItems = [
+      { date: '2025.04.01', text: '春季の診療時間のお知らせ。通常通り診療いたします。' },
+      { date: '2025.01.06', text: '年末年始休診のお知らせ（12月31日〜1月5日）。' },
+      { date: '2024.08.10', text: 'お盆休診のお知らせ（8月12日〜16日）。' },
+    ];
+
+    function renderNews() {
+      const list = document.getElementById('news-list');
+      list.innerHTML = newsItems.map((item, i) =>
+        `<li class="news-item"><span class="news-date">${item.date}</span><span>${item.text}</span></li>`
+      ).join('');
+      const editList = document.getElementById('news-edit-list');
+      if (editList) {
+        editList.innerHTML = newsItems.map((item, i) =>
+          `<li style="display:flex;align-items:baseline;gap:1rem;padding:0.6rem 0;border-bottom:1px solid var(--divider);font-size:0.85rem;">
+            <span style="color:var(--muted);font-size:0.78rem;white-space:nowrap;min-width:90px;">${item.date}</span>
+            <span style="flex:1;">${item.text}</span>
+            <button onclick="deleteNews(${i})" style="background:none;border:none;color:#C62828;cursor:pointer;font-size:1rem;flex-shrink:0;">×</button>
+          </li>`
+        ).join('');
+      }
+    }
+
+    function addNews() {
+      const dateVal = document.getElementById('news-date-input').value;
+      const textVal = document.getElementById('news-text-input').value.trim();
+      if (!dateVal || !textVal) { alert('日付と内容を入力してください'); return; }
+      const d = new Date(dateVal);
+      const formatted = `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+      newsItems.unshift({ date: formatted, text: textVal });
+      document.getElementById('news-date-input').value = '';
+      document.getElementById('news-text-input').value = '';
+      renderNews();
+    }
+
+    function deleteNews(index) {
+      if (confirm('このお知らせを削除しますか？')) {
+        newsItems.splice(index, 1);
+        renderNews();
+      }
+    }
+
+    function showNewsLogin() {
+      document.getElementById('news-login-area').style.display = 'none';
+      document.getElementById('news-password-area').style.display = 'block';
+      document.getElementById('news-admin-pw').focus();
+    }
+    function cancelNewsLogin() {
+      document.getElementById('news-password-area').style.display = 'none';
+      document.getElementById('news-login-area').style.display = 'block';
+      document.getElementById('news-admin-pw').value = '';
+      document.getElementById('news-pw-error').style.display = 'none';
+    }
+    function checkNewsPassword() {
+      if (document.getElementById('news-admin-pw').value === ADMIN_PASSWORD) {
+        document.getElementById('news-password-area').style.display = 'none';
+        document.getElementById('news-edit-area').style.display = 'block';
+        document.getElementById('news-admin-pw').value = '';
+        document.getElementById('news-pw-error').style.display = 'none';
+        renderNews();
+      } else {
+        document.getElementById('news-pw-error').style.display = 'block';
+      }
+    }
+    function logoutNews() {
+      document.getElementById('news-edit-area').style.display = 'none';
+      document.getElementById('news-login-area').style.display = 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNews();
+      document.getElementById('news-admin-pw').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') checkNewsPassword();
+      });
+    });
+  </script>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <p class="section-eyebrow">Medical Services</p>
+  <h2 class="section-title">診療内容</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">👁️</div>
+      <h3 class="service-name">一般眼科</h3>
+      <p class="service-desc">視力低下・充血・眼の痛みなど、眼に関するあらゆる症状の診察・治療を行います。</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔬</div>
+      <h3 class="service-name">白内障</h3>
+      <p class="service-desc">白内障の診断から手術まで対応しています。見えにくさ・かすみなどの症状は早めにご相談ください。</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⚠️</div>
+      <h3 class="service-name">緑内障</h3>
+      <span class="service-tag">失明原因 第1位</span>
+      <p class="service-desc">自覚症状がないまま進行します。一度失った視野は元に戻りません。40歳を過ぎたら定期検査をお勧めします。</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🩺</div>
+      <h3 class="service-name">網膜疾患</h3>
+      <p class="service-desc">糖尿病網膜症・加齢黄斑変性など、網膜に関わる疾患の診断・治療を行います。</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🌸</div>
+      <h3 class="service-name">アレルギー・ドライアイ</h3>
+      <p class="service-desc">花粉症による結膜炎やドライアイの診察・点眼薬処方を行っています。</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📋</div>
+      <h3 class="service-name">定期検診・健診</h3>
+      <p class="service-desc">目の病気は自覚症状が出たときにはすでに進行していることが多いです。年に一度の眼科受診をぜひお続けください。</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOURS & ACCESS -->
+<section id="hours">
+  <p class="section-eyebrow">Hours &amp; Access</p>
+  <h2 class="section-title">診療時間 ・ アクセス</h2>
+  <div class="hours-layout">
+
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align:left;">曜日</th>
+            <th>午前<br><small style="font-size:0.68rem;opacity:0.6;">9:30〜12:00</small></th>
+            <th>午後<br><small style="font-size:0.68rem;opacity:0.6;">16:00〜18:00</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>月曜日</td><td class="dot">●</td><td class="dot">●</td></tr>
+          <tr><td>火曜日</td><td class="dot">●</td><td class="dot">●</td></tr>
+          <tr><td>水曜日</td><td class="dot">●</td><td class="dot">●</td></tr>
+          <tr><td>木曜日</td><td class="dot">●</td><td class="dot">●</td></tr>
+          <tr><td>金曜日</td><td class="dot">●</td><td class="dot">●</td></tr>
+          <tr><td>土曜日</td><td class="dot">●</td><td class="dash">—</td></tr>
+          <tr><td>日曜日</td><td class="dash">—</td><td class="dash">—</td></tr>
+        </tbody>
+      </table>
+      <ul class="hours-notes">
+        <li>日曜日・祝祭日・お盆・年末年始は休診となります</li>
+        <li>受付は終了30分前まで</li>
+        <li>臨時休診はお知らせでご確認ください</li>
+      </ul>
+    </div>
+
+    <div class="access-block" id="access">
+      <h3>ACCESS</h3>
+      <div class="access-row">
+        <span class="access-label">住所</span>
+        <span class="access-value">〒892-0877<br>鹿児島市吉野二丁目6-10</span>
+      </div>
+      <div class="access-row">
+        <span class="access-label">TEL</span>
+        <span class="access-value"><a href="tel:0992955911" style="color:inherit;">099-295-5911</a></span>
+      </div>
+      <div class="access-row">
+        <span class="access-label">開設</span>
+        <span class="access-value">2000年</span>
+      </div>
+      <a href="https://maps.google.com/maps?q=鹿児島市吉野二丁目6-10" class="map-link" target="_blank" rel="noopener">
+        Google マップで開く →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">医療法人さくら眼科</span>
+  <span>〒892-0877 鹿児島市吉野二丁目6-10 &ensp;TEL: 099-295-5911</span>
+  <span>© 2000 Sakura Eye Clinic</span>
+</footer>
+
+</body>
+</html>
